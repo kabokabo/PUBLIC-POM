@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>bundles</artifactId>
+    <groupId>org.glassfish.metro</groupId>
+    <version>2.1.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>webservices-rt</artifactId>
+  <name>Metro Web Services Runtime non-OSGi Bundle</name>
+  <description>This module contains the Metro runtime code.</description>
+  <build>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <includes>
+                  <include>${parent.groupId}:wsit*</include>
+                  <include>javax.xml:jaxrpc-api</include>
+                  <include>javax.xml.stream:stax-api</include>
+                  <include>javax.xml.crypto:jsr105-api</include>
+                  <include>com.sun.org.apache.xml.internal:resolver</include>
+                  <include>com.sun.xml.bind:jaxb-impl</include>
+                  <include>com.sun.xml.bind:jaxb1-impl</include>
+                  <include>com.sun.xml.fastinfoset:FastInfoset</include>
+                  <include>com.sun.xml.messaging.saaj:saaj-impl</include>
+                  <include>com.sun.xml.registry:jaxr-impl</include>
+                  <include>com.sun.xml.rpc:jaxrpc-impl</include>
+                  <include>com.sun.xml.rpc:jaxrpc-spi</include>
+                  <include>com.sun.xml.security:jsr105-impl</include>
+                  <include>com.sun.xml.security:saml-jaxb10-bindings</include>
+                  <include>com.sun.xml.stream:sjsxp</include>
+                  <include>com.sun.xml.stream.buffer:streambuffer</include>
+                  <include>com.sun.xml.ws:jaxws-rt</include>
+                  <include>com.sun.xml.ws:policy</include>
+                  <include>com.sun.xml.ws.security.kerb:kerberos-wss-extension</include>
+                  <include>com.sun.xml.wss.core.reference:keyidspi-ibm-impl</include>
+                  <include>net.java.dev.stax-utils:stax-utils</include>
+                  <include>org.codehaus.woodstox:woodstox-core-asl</include>
+                  <include>org.codehaus.woodstox:stax2-api</include>
+                  <include>org.glassfish.external:management-api</include>
+                  <include>org.glassfish.gmbal:gmbal</include>
+                  <include>org.glassfish.ha:ha-api</include>
+                  <include>org.jvnet.staxex:stax-ex</include>
+                  <include>org.jvnet:mimepull</include>
+                </includes>
+              </artifactSet>
+              <createSourcesJar>true</createSourcesJar>
+              <filters>
+                <filter>
+                  <artifact>com.sun.xml.stream:sjsxp</artifact>
+                  <excludes>
+                    <exclude>META-INF/services/*</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>com.sun.xml.rpc:jaxrpc-impl</artifact>
+                  <excludes>
+                    <exclude>META-INF/jaxrpc/ToolPlugin.xml</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>com.sun.xml.ws:jaxws-rt</artifact>
+                  <excludes>
+                    <exclude>com/sun/xml/ws/util/version.properties</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer />
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.glassfish.metro</groupId>
+      <artifactId>webservices-api</artifactId>
+      <version>2.1.1</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <properties>
+    <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
+    <major.version>${metro.release.version}</major.version>
+    <build.version>Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS/${jaxws.spec.version}</build.version>
+  </properties>
+</project>
+
